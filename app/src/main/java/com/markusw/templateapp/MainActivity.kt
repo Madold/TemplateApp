@@ -4,13 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.markusw.templateapp.core.presentation.Screens
+import com.markusw.templateapp.details.presentation.DetailsScreen
+import com.markusw.templateapp.details.presentation.DetailsViewModel
+import com.markusw.templateapp.home.presentation.HomeScreen
+import com.markusw.templateapp.home.presentation.HomeViewModel
 import com.markusw.templateapp.ui.theme.TemplateAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,29 +27,36 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TemplateAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
+                val navController = rememberNavController()
+
+                NavHost(navController = navController, startDestination = Screens.Home.route) {
+                    composable(route = Screens.Home.route) {
+                        val viewModel = hiltViewModel<HomeViewModel>()
+                        val state by viewModel.state.collectAsStateWithLifecycle()
+                        HomeScreen(state, navController)
+                    }
+
+                    composable(
+                        route = "${Screens.Details.route}/{repositoryId}",
+                        arguments = listOf(
+                            navArgument("repositoryId") {
+                                type = NavType.StringType
+                            }
+                        )
+                    ) {
+
+                        val viewModel = hiltViewModel<DetailsViewModel>()
+                        val state by viewModel.state.collectAsStateWithLifecycle()
+
+                        DetailsScreen(
+                            state = state
+                        )
+
+
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TemplateAppTheme {
-        Greeting("Android")
     }
 }

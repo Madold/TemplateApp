@@ -52,6 +52,16 @@ android {
 dependencies {
     implementation(libs.com.google.dagger)
     ksp(libs.com.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.navigation.compose)
+
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
