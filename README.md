@@ -14,7 +14,7 @@
 
 ## Principles applied: SOLID
 
-## Tech stack: Kotlin, Jetpack Compose, Dagger-Hilt, Jetpack Libraries, Retrofit, Coil Compose, Android Jetpack Navigation
+## Tech stack: Kotlin, Jetpack Compose, Dagger-Hilt, Jetpack Libraries, Retrofit, Coil Compose, Android Jetpack Navigation, ROOM (SQL)
 
 ## Features
 - Loading state
